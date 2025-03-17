@@ -1,0 +1,61 @@
+/* Lógico_1: */
+
+CREATE TABLE cliente (
+    codCliente integer PRIMARY KEY,
+    nome varchar(100),
+    telefone varchar(15),
+    email varchar(100),
+    dataNasc datetime,
+    cpf varchar(15),
+    rg varchar(15),
+    rua varchar(50),
+    num interger,
+    comple varchar(30),
+    bairro varchar(30),
+    cidade varchar(50),
+    estado char(2),
+    cep varchar(50)
+);
+
+CREATE TABLE carro (
+    codCarro interger PRIMARY KEY,
+    placa varchar(10),
+    marca varchar|(30),
+    modelo varchar(30),
+    cor varchar(30),
+    porte varchar(20),
+    chassi varchar(10),
+    fk_cliente_codCliente integer
+);
+
+CREATE TABLE ocorrencia (
+    codOcorrencia interger PRIMARY KEY,
+    data datetime,
+    hora datetime,
+    rua varchar(100),
+    bairro varchar(30),
+    cidade varchar(30),
+    descricao varchar(255),
+    fk_carro_codCarro interger,
+    fk_tipo_codTipo varchar(10)
+);
+
+CREATE TABLE tipo (
+    tipo varchar(30),
+    codTipo varchar(10) PRIMARY KEY
+);
+ 
+ALTER TABLE carro ADD CONSTRAINT FK_carro_2
+    FOREIGN KEY (fk_cliente_codCliente)
+    REFERENCES cliente (codCliente)
+    ON DELETE RESTRICT;
+ 
+ALTER TABLE ocorrencia ADD CONSTRAINT FK_ocorrencia_2
+    FOREIGN KEY (fk_carro_codCarro)
+    REFERENCES carro (codCarro)
+    ON DELETE CASCADE;
+ 
+ALTER TABLE ocorrencia ADD CONSTRAINT FK_ocorrencia_3
+    FOREIGN KEY (fk_tipo_codTipo)
+    REFERENCES tipo (codTipo)
+    ON DELETE RESTRICT;
