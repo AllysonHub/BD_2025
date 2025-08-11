@@ -1,0 +1,72 @@
+-- marca
+CREATE TABLE marca (
+	codmarca int PRIMARY KEY AUTO_INCREMENT,
+    marca varchar(255) NOT null UNIQUE
+);
+
+-- modelo
+CREATE TABLE modelo (
+	codmodelo int PRIMARY KEY AUTO_INCREMENT,
+    modelo varchar(255) NOT null UNIQUE,
+    fk_codmarca int,
+    FOREIGN KEY fk_codmarca REFERENCES marca(codmarca)
+);
+
+-- endereco
+CREATE TABLE endereco(
+    codendereco INT PRIMARY KEY AUTO_INCREMENT,
+    rua VARCHAR(255),
+    num int NULL,
+    bairro VARCHAR(255),
+    cidade VARCHAR(255),
+    estado CHAR(2),
+    cep VARCHAR(8));
+
+-- servico 
+CREATE TABLE servico(
+    codservico INT PRIMARY KEY AUTO_INCREMENT,
+    servico VARCHAR(255),
+    valor DECIMAL(10,2));
+    
+-- cliente
+CREATE TABLE cliente (
+	codcliente int PRIMARY KEY AUTO_INCREMENT,
+    nome varchar(255) NOT null,
+    datanascimento date NOT null,
+    telefone int not null,
+    email varchar(255) not null,
+    frk_codendereco int,
+    FOREIGN KEY frk_codendereco REFERENCES endereco(codendereco));
+
+-- atendimentoservico
+CREATE TABLE atendimento_servico (
+	codatendimento_servico int PRIMARY KEY AUTO_INCREMENT,
+    totalservico decimal(10,2) NOT null,
+    qtde int NOT null
+);
+
+CREATE TABLE atendimento (
+	codatendimento int PRIMARY KEY AUTO_INCREMENT,
+    totalgeral decimal(10,2) NOT null,
+    dataatendimento date NOT null,
+    fk_codatendimento_servico int,
+    FOREIGN KEY fk_codatendimento_servico REFERENCES atendimento_servico(codatendimento_servico)
+);
+
+CREATE TABLE servico (
+	codservico int PRIMARY KEY AUTO_INCREMENT,
+    servico varchar(255) NOT null UNIQUE,
+    valor decimal(10,2) NOT null,
+    frk_codatendimento_servico int,
+    FOREIGN KEY frk_codatendimento_servico REFERENCES atendimento_servico(codatendimento_servico)
+);
+    
+--  carro
+  CREATE TABLE carro (
+	codcarro int PRIMARY KEY AUTO_INCREMENT,
+    ano int NOT null,
+    fk_codcliente int,
+    fk_codmodelo int,
+    FOREIGN KEY fk_codcliente REFERENCES cliente(codcliente),
+    FOREIGN KEY fk_codmodelo REFERENCES modelo(codmodelo)
+);
